@@ -10,40 +10,40 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
-
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(6),
-      child: GridTile(
-        footer: GridTileBar(
-          backgroundColor: Colors.black45,
-          leading: IconButton(
-            icon: Icon(
-              product.isFavorite ? Icons.favorite : Icons.favorite_border,
+    return Consumer<Product>(
+      builder: (ctx, product, child) => ClipRRect(
+        borderRadius: BorderRadius.circular(6),
+        child: GridTile(
+          footer: GridTileBar(
+            backgroundColor: Colors.black45,
+            leading: IconButton(
+              icon: Icon(
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+              ),
+              onPressed: () {
+                product.toggleFavoriteState();
+              },
             ),
-            onPressed: () {
-              product.toggleFavoriteState();
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {},
+            ),
+          ),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                ProductDetailPage.routeName,
+                arguments: product.id,
+              );
             },
-          ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
-          ),
-        ),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.of(context).pushNamed(
-              ProductDetailPage.routeName,
-              arguments: product.id,
-            );
-          },
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
