@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'My Shop',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Lato',
       ),
       home: ProductOverviewPage(),
     );
