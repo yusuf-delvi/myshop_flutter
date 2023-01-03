@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/products.dart';
 import '../providers/cart.dart';
 
+import './cart_page.dart';
 import '../widgets/product_item.dart';
 import '../widgets/badge.dart';
 
@@ -57,7 +58,9 @@ class _ProductOverviewPageState extends State<ProductOverviewPage> {
             ),
             child: IconButton(
               icon: const Icon(Icons.shopping_cart),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartPage.routeName);
+              },
             ),
           )
         ],
