@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../pages/product_detail_page.dart';
+
 class ProductItem extends StatelessWidget {
   const ProductItem({
     required this.id,
@@ -32,9 +34,17 @@ class ProductItem extends StatelessWidget {
             onPressed: () {},
           ),
         ),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(
+              ProductDetailPage.routeName,
+              arguments: id,
+            );
+          },
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
