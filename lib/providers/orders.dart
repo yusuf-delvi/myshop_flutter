@@ -17,10 +17,10 @@ class OrderItem {
 }
 
 class Orders with ChangeNotifier {
-  List<OrderItem> _orders = [];
+  final List<OrderItem> _orders = [];
 
   List<OrderItem> get orders {
-    return [...orders];
+    return [..._orders];
   }
 
   void addOrder(List<CartItem> cartProducts, double total) {
