@@ -7,6 +7,7 @@ import './providers/orders.dart';
 
 import './pages/products_overview_page.dart';
 import './pages/product_detail_page.dart';
+import './pages/user_products_page.dart';
 import './pages/cart_page.dart';
 import './pages/orders_page.dart';
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           ProductDetailPage.routeName: (ctx) => const ProductDetailPage(),
           CartPage.routeName: (ctx) => const CartPage(),
           OrdersPage.routeName: (ctx) => const OrdersPage(),
+          UserProductsPage.routeName: (ctx) => const UserProductsPage(),
         },
       ),
     );
