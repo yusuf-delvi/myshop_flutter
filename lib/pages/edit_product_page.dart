@@ -38,7 +38,7 @@ class _EditProductPageState extends State<EditProductPage> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final productId = ModalRoute.of(context)?.settings.arguments as String;
+      final productId = ModalRoute.of(context)!.settings.arguments as dynamic;
       if (productId != null) {
         _editedProduct =
             Provider.of<Products>(context, listen: false).findById(productId);
