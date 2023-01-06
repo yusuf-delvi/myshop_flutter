@@ -44,6 +44,12 @@ class _EditProductPageState extends State<EditProductPage> {
   }
 
   void _saveForm() {
+    final isValid = _form.currentState!.validate();
+
+    if (!isValid) {
+      return;
+    }
+
     _form.currentState!.save();
     print(_editedProduct.title);
     print(_editedProduct.description);
@@ -76,6 +82,13 @@ class _EditProductPageState extends State<EditProductPage> {
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_priceFocusNode);
                   },
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Title is required!';
+                    }
+
+                    return null;
+                  },
                   onSaved: (newValue) {
                     _editedProduct = Product(
                       id: '',
@@ -94,6 +107,18 @@ class _EditProductPageState extends State<EditProductPage> {
                   onFieldSubmitted: (_) {
                     FocusScope.of(context).requestFocus(_desriptionFocusNode);
                   },
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please enter a price.';
+                    }
+                    if (double.tryParse(val) == null) {
+                      return 'Please enter valid number.';
+                    }
+                    if (double.parse(val) <= 0) {
+                      return 'Please enter a number greater than 0.';
+                    }
+                    return null;
+                  },
                   onSaved: (newValue) {
                     _editedProduct = Product(
                       id: '',
@@ -109,6 +134,15 @@ class _EditProductPageState extends State<EditProductPage> {
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
                   focusNode: _desriptionFocusNode,
+                  validator: (val) {
+                    if (val!.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    if (val.length < 10) {
+                      return 'Should be at least 10 char long.';
+                    }
+                    return null;
+                  },
                   onSaved: (newValue) {
                     _editedProduct = Product(
                       id: '',
@@ -155,6 +189,24 @@ class _EditProductPageState extends State<EditProductPage> {
                         focusNode: _imageUrlFocusNode,
                         onFieldSubmitted: (_) {
                           _saveForm();
+                        },
+                        validator: (val) {
+                          if (val!.isEmpty) {
+                            return 'Please enter an image URL.';
+                          }
+
+                          if (!val.startsWith('http') &&
+                              !val.startsWith('https')) {
+                            return 'Please enter a valid URL.';
+                          }
+
+                          if (!val.endsWith('.png') &&
+                              !val.endsWith('.jpg') &&
+                              !val.endsWith('.jpeg')) {
+                            return 'Please enter a valid Image url.';
+                          }
+
+                          return null;
                         },
                         onSaved: (newValue) {
                           _editedProduct = Product(
