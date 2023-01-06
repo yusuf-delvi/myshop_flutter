@@ -90,7 +90,23 @@ class _EditProductPageState extends State<EditProductPage> {
       Provider.of<Products>(
         context,
         listen: false,
-      ).addProduct(_editedProduct).then((_) {
+      ).addProduct(_editedProduct).catchError((error) {
+        return showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('An error occurred'),
+            content: const Text('Something went wrong.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
