@@ -21,11 +21,38 @@ class _EditProductPageState extends State<EditProductPage> {
   final _form = GlobalKey<FormState>();
   var _editedProduct =
       Product(id: '', title: '', description: '', price: 0, imageUrl: '');
+  var _initValues = {
+    'title': '',
+    'description': '',
+    'price': '',
+    'imageUrl': '',
+  };
+  var _isInit = true;
 
   @override
   void initState() {
     _imageUrlFocusNode.addListener(_updateImageUrl);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context)?.settings.arguments as String;
+      if (productId != null) {
+        _editedProduct =
+            Provider.of<Products>(context, listen: false).findById(productId);
+        _initValues = {
+          'title': _editedProduct.title,
+          'description': _editedProduct.description,
+          'imageUrl': '',
+          'price': _editedProduct.price.toString(),
+        };
+        _imageUrlController.text = _editedProduct.imageUrl;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
   }
 
   @override
@@ -78,6 +105,7 @@ class _EditProductPageState extends State<EditProductPage> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: _initValues['title'],
                   decoration: const InputDecoration(label: Text('Title')),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) {
@@ -101,6 +129,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   },
                 ),
                 TextFormField(
+                  initialValue: _initValues['price'],
                   decoration: const InputDecoration(label: Text('Price')),
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.number,
@@ -131,6 +160,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   },
                 ),
                 TextFormField(
+                  initialValue: _initValues['description'],
                   decoration: const InputDecoration(label: Text('Description')),
                   maxLines: 3,
                   keyboardType: TextInputType.multiline,
