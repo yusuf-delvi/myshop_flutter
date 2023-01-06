@@ -81,7 +81,13 @@ class _EditProductPageState extends State<EditProductPage> {
 
     _form.currentState!.save();
 
-    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    if (_editedProduct.id.isEmpty) {
+      Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    } else {
+      Provider.of<Products>(context, listen: false)
+          .updateProduct(_editedProduct.id, _editedProduct);
+    }
+
     Navigator.of(context).pop();
   }
 
@@ -120,7 +126,8 @@ class _EditProductPageState extends State<EditProductPage> {
                   },
                   onSaved: (newValue) {
                     _editedProduct = Product(
-                      id: '',
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite,
                       title: newValue ?? '',
                       description: _editedProduct.description,
                       price: _editedProduct.price,
@@ -151,7 +158,8 @@ class _EditProductPageState extends State<EditProductPage> {
                   },
                   onSaved: (newValue) {
                     _editedProduct = Product(
-                      id: '',
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite,
                       title: _editedProduct.title,
                       description: _editedProduct.description,
                       price: double.parse(newValue ?? ''),
@@ -176,7 +184,8 @@ class _EditProductPageState extends State<EditProductPage> {
                   },
                   onSaved: (newValue) {
                     _editedProduct = Product(
-                      id: '',
+                      id: _editedProduct.id,
+                      isFavorite: _editedProduct.isFavorite,
                       title: _editedProduct.title,
                       description: newValue ?? '',
                       price: _editedProduct.price,
@@ -241,7 +250,8 @@ class _EditProductPageState extends State<EditProductPage> {
                         },
                         onSaved: (newValue) {
                           _editedProduct = Product(
-                            id: '',
+                            id: _editedProduct.id,
+                            isFavorite: _editedProduct.isFavorite,
                             title: _editedProduct.title,
                             description: _editedProduct.description,
                             price: _editedProduct.price,
