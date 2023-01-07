@@ -37,6 +37,8 @@ class Orders with ChangeNotifier {
 
       final data = json.decode(response.body) as Map<String, dynamic>;
 
+      if (data == null) return;
+
       data.forEach((orderId, orderData) {
         loadedOrders.add(OrderItem(
           id: orderId,
